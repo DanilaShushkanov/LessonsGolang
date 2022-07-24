@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	forEndlessRange()
+	sendToChannel()
 }
 
 func nilChannel() {
@@ -155,4 +155,17 @@ func forRangeUnbuffChan() {
 	for value := range buffChan {
 		fmt.Println("unbuff:", value)
 	}
+}
+
+// объяснение того, как работают каналы под капотом
+
+func sendToChannel() {
+	channel := make(chan int, 2)
+	a := 10
+	fmt.Println(&a)
+
+	channel <- a
+
+	b := <-channel
+	fmt.Println(&b)
 }
