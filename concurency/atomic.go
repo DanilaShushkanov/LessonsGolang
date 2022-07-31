@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	addValue()
+	compareAndSwap()
 }
 
 // тоже самое, что и обычно, только с пакетом atomic работает чуть быстрее, чем с mutex

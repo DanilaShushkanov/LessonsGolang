@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	reverseSlice()
+
 }
 
 func filterSlice() {
@@ -15,6 +15,7 @@ func filterSlice() {
 	for _, x := range slice {
 		if x > 5 {
 			slice[n] = x
+			fmt.Println(slice)
 			n++
 		}
 	}
@@ -36,30 +37,36 @@ func reverseSlice() {
 func getSlice() {
 	arr := [...]int{1, 2, 3, 4, 5}
 	fmt.Printf("%T, %#v \n", arr, arr)
+	fmt.Println("______________________")
 
 	//slice от array
 	slice := arr[1:3]
 	fmt.Printf("%v, %v, %v \n", slice, len(slice), cap(slice))
+	fmt.Println("______________________")
 
 	arr[1] = 99 //изменилось значение и в слайсе и в массиве, так как этот массив является базовым для салайса
 	fmt.Printf("%T, %#v \n", arr, arr)
 	fmt.Printf("%v, %v, %v \n", slice, len(slice), cap(slice))
+	fmt.Println("______________________")
 
 	//сделал реслайзинг
 	newSlice := slice[:1]
 	fmt.Printf("%v, %v, %v \n", newSlice, len(newSlice), cap(newSlice))
+	fmt.Println("______________________")
 
 	// изменилость во всех слайсах и массиве
 	newSlice[0] = 2
 	fmt.Printf("%T, %#v \n", arr, arr)
 	fmt.Printf("%v, %v, %v \n", slice, len(slice), cap(slice))
 	fmt.Printf("%v, %v, %v \n", newSlice, len(newSlice), cap(newSlice))
+	fmt.Println("______________________")
 
 	//такой аппенд изменяет сразу в трех местах, добавляя значение в NewSlice, изменяее значение в Slice и Array
 	newSlice = append(newSlice, 22)
 	fmt.Printf("%T, %#v \n", arr, arr)
 	fmt.Printf("%v, %v, %v \n", slice, len(slice), cap(slice))
 	fmt.Printf("%v, %v, %v \n", newSlice, len(newSlice), cap(newSlice))
+	fmt.Println("______________________")
 
 	// такой аппенд обновляет значения в базовом массиве и докидывает в newSlice, базовывй массив не пересоздается, так как cap хватает, если добавить еще элемент
 	//то базовый массив пересоздастся и переменная Array изменяться не будет, а newSlice увеличит свое капасити и получет элементы в себя

@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	selectManyChannels()
+	gracefulShutdown()
 }
 
 func baseSelect() {
@@ -56,7 +56,7 @@ func selectManyChannels() {
 		for value := range buffChan {
 			fmt.Printf("Print BuffChan: %v \n", value)
 		}
-	case <-time.After(time.Second / 2):
+	case <-time.After(time.Second * 2):
 		fmt.Println("ВРЕМЯ ВЫШЛО")
 	default:
 		fmt.Println("DEFAULT")

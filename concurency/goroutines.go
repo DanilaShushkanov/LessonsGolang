@@ -5,7 +5,22 @@ import (
 )
 
 func main() {
-	deferValues()
+	fmt.Println("start")
+
+	go printNumbers()
+
+	// задать количество виртуальных ядер, на которых будет выполняться работа рутин
+	// 1 ядро = 1 горутина
+	//runtime.GOMAXPROCS(1)
+	//количество виртуальных ядер
+	//fmt.Println(runtime.NumCPU())
+
+	// переключение на другую горутину с помощью планировщика
+	//time.Sleep(time.Second)
+	//принудительное переключение на другую горутину
+	//runtime.Gosched()
+
+	fmt.Println("finish")
 }
 
 func panicRecover() {

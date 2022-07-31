@@ -12,6 +12,7 @@ func (s Square) Perimeter() {
 }
 
 func (s *Square) Scale(multiplier int) {
+	fmt.Println("________________")
 	fmt.Printf("%T %#v \n", s, s)
 	s.Side *= multiplier
 	fmt.Printf("%T %#v \n", s, s)

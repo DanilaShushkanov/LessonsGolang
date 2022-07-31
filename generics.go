@@ -50,7 +50,7 @@ func showContains() {
 
 	fmt.Println(contains(sliceInt64, 2))
 	fmt.Println(contains(sliceFloat64, 3.0))
-	fmt.Println(contains(sliceStruct, Personn{"Пашdа", 30}))
+	fmt.Println(contains(sliceStruct, Personn{"Паша", 30}))
 
 }
 
@@ -115,6 +115,7 @@ type Numbers64[T Number64] []T
 func sumUnionInterfaces() {
 	// когда создается переменная с обощенным типом, то необходимо указывать тип значений, какой будет в ней лежать
 	var sliceInt64 Numbers64[int64]
+	fmt.Printf("%T, %v \n", sliceInt64, sliceInt64)
 	sliceInt64 = append(sliceInt64, []int64{1, 2, 3, 4, 5}...)
 
 	sumInt := sum[int64](sliceInt64)

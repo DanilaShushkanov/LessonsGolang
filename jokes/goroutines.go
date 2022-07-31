@@ -63,13 +63,21 @@ func testGoroutines4() {
 	fmt.Printf("NUM is %d", num)
 }
 
-//ошибка, конкуретной без синхронизации в map писать нельзя
+//ошибка, конкуретно
+//без синхронизации в map писать нельзя
 func testGoroutines5() {
 	dataMap := make(map[string]int)
+	//mu := sync.Mutex{}
+	//ch := make(chan struct{}, 1)
+
 	for i := 0; i < 10000; i++ {
 		go func(d map[string]int, num int) {
 
+			//ch <- struct{}{}
+			//mu.Lock()
 			d[fmt.Sprintf("%d", num)] = num
+			//mu.Unlock()
+			//<-ch
 
 		}(dataMap, i)
 	}

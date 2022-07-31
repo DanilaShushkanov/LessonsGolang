@@ -59,7 +59,7 @@ func NilInterface() {
 
 	var d *Duck
 	//d = &Duck{Name: "213"}
-	dI = d //появились знание ок конкретном типе(если раскомментить строчку выше, то еще и о конкретном значении), поэтому не нил теперь
+	dI = d //появились знание о конкретном типе(если раскомментить строчку выше, то еще и о конкретном значении), поэтому не нил теперь
 
 	fmt.Printf("%T, %#v\n", dI, dI)
 	if dI == nil {
@@ -70,9 +70,9 @@ func NilInterface() {
 
 func EmptyInterface() {
 	var emptyI interface{}
-	x := 123
+	//x := 123
 
-	emptyI = x
+	//emptyI = x
 
 	fmt.Printf("%T, %#v\n", emptyI, emptyI)
 	if emptyI == nil {

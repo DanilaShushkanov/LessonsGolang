@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	writeReadWithMutex()
+	writeWithoutMutex()
 
 }
 

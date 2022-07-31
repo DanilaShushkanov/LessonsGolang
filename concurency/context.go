@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	workerPoolWithCancel()
+	workerPoolWithTimeout()
 }
 
 func baseContext() {

@@ -53,27 +53,27 @@ type WorkExperience struct {
 	Age  int
 }
 
-// РАСКОМЕЕНТИ, ТУТ МОНОГО ИНТЕРЕСНОГО
-//func composition() {
-//	builder := Builder{
-//		Person: Person{
-//			Name: "Степа",
-//			Age:  30,
-//		},
-//		WorkExperience: WorkExperience{
-//			Name: "Таксист",
-//			Age:  10,
-//		},
-//		Name: "Боб",
-//	}
-//
-//	//fmt.Println(builder.Age) // синтаксический сахар (не может достать AGE, так как на одном уровне две структутры имеют это поле)
-//	fmt.Println(builder.Person.Age)
-//
-//	fmt.Println(builder.Name) // выведется БОБ, так как это свойство лежит ближе к поверхности композиции
-//
-//	builder.printName() // тут выведется СТЕПА, так как метод принадлежит структуре PERSON (если раскомментить метод для BUILDER то выведется имя из его структуры)
-//}
+//РАСКОМЕЕНТИ, ТУТ МОНОГО ИНТЕРЕСНОГО
+func composition() {
+	builder := Builder{
+		Person: Person{
+			Name: "Степа",
+			Age:  30,
+		},
+		WorkExperience: WorkExperience{
+			Name: "Таксист",
+			Age:  10,
+		},
+		Name: "Боб",
+	}
+
+	//fmt.Println(builder.Age) // синтаксический сахар (не может достать AGE, так как на одном уровне две структутры имеют это поле)
+	fmt.Println(builder.Person.Age)
+
+	fmt.Println(builder.Name) // выведется БОБ, так как это свойство лежит ближе к поверхности композиции
+
+	builder.printName() // тут выведется СТЕПА, так как метод принадлежит структуре PERSON (если раскомментить метод для BUILDER то выведется имя из его структуры)
+}
 
 // useCase для композиции с интрефейсом
 
