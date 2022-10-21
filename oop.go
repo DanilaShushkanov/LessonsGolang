@@ -4,7 +4,9 @@ import "fmt"
 
 //композиция структур
 
-type Parent struct{}
+type Parent struct {
+	name string
+}
 
 func (p *Parent) printStructName() {
 	fmt.Println("parent")
@@ -24,6 +26,8 @@ func (c *Child) printStructName() {
 func main() {
 	c := Child{}
 
-	c.printStructName()
+	c.Parent.printStructName()
 	c.printLox()
+
+	c.name = "ddd"
 }

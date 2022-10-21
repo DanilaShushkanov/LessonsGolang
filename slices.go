@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-
+	reverseSlice()
 }
 
 func filterSlice() {
@@ -25,7 +25,7 @@ func filterSlice() {
 
 func reverseSlice() {
 	slice := []int{1, 2, 3, 4, 5}
-
+	fmt.Println(len(slice) / 2)
 	for i := len(slice)/2 - 1; i >= 0; i-- {
 		opp := len(slice) - 1 - i
 		fmt.Println(opp, i)
@@ -132,7 +132,7 @@ func changeSlice(slice []int) {
 }
 
 func appendSlice(slice []int) []int {
-	slice = append(slice, 3)
+	slice = append(slice, 3, 4)
 	fmt.Printf("%v, %v, %v \n", slice, len(slice), cap(slice))
 
 	return slice
@@ -156,7 +156,7 @@ func appendToSlice() {
 	fmt.Printf("%v, %v, %v \n", firstSlice, len(firstSlice), cap(firstSlice))
 }
 
-//  нужно чтобы совпадала длина массива и слайса
+// нужно чтобы совпадала длина массива и слайса
 func convertToArrayPointer() {
 	initialSlice := []int{1, 2}
 	fmt.Printf("%#v, %v, %v \n", initialSlice, len(initialSlice), cap(initialSlice))

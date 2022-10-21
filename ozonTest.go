@@ -50,7 +50,20 @@ func main() {
 	//	fmt.Println(num)
 	//}
 
-	WorkerPool()
+	//WorkerPool()
+
+	//fmt.Println(RandInt(5))
+
+	mapa1 := map[string]int{
+		"1": 1,
+		"2": 2,
+	}
+	mapa2 := map[string]int{
+		"1": 1,
+		"2": 2,
+		"3": 3,
+	}
+	fmt.Println(comparisonMap(mapa1, mapa2))
 }
 
 func intersection(slice1 []int, slice2 []int) []int {
@@ -118,6 +131,7 @@ func sendRead() {
 
 	go func() {
 		for x := 0; x <= 10; x++ {
+			fmt.Println("Запись")
 			naturals <- x
 		}
 		close(naturals)
@@ -125,6 +139,7 @@ func sendRead() {
 
 	go func() {
 		for x := range naturals {
+			fmt.Println("Чтение")
 			squares <- x * x
 		}
 		close(squares)
@@ -158,12 +173,6 @@ func WorkerPool() {
 	//for i := 1; i <= numJobs; i++ {
 	//	fmt.Println(<-results)
 	//}
-
-	go func() {
-		for value := range results {
-			fmt.Println(value)
-		}
-	}()
 }
 
 func worker(id int, f func(int) int, jobs <-chan int, results chan<- int) {
@@ -172,4 +181,39 @@ func worker(id int, f func(int) int, jobs <-chan int, results chan<- int) {
 		//переложет реузультат функции в канал result
 		results <- f(j)
 	}
+}
+
+func RandInt(n int) []int {
+	mapa := make(map[int]struct{})
+	for i := 0; i < n; i++ {
+		r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+		randInt := r.Int()
+		if _, ok := mapa[randInt]; ok {
+			i--
+			continue
+		}
+
+		mapa[randInt] = struct{}{}
+	}
+
+	slice := make([]int, 0, n)
+	for value := range mapa {
+		slice = append(slice, value)
+	}
+
+	return slice
+}
+
+func comparisonMap(a, b map[string]int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for key, valueA := range a {
+		valueB, ok := b[key]
+		if !ok || valueA != valueB {
+			return false
+		}
+	}
+	return true
 }

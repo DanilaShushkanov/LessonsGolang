@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"runtime"
+	"sync"
 	"time"
 )
 
@@ -10,7 +11,7 @@ func main() {
 	testGoroutines6()
 }
 
-//deadlock так как ничего записать и считать из nilChannel нельзя
+// deadlock так как ничего записать и считать из nilChannel нельзя
 func testGoroutines1() {
 	var ch chan int
 	for i := 0; i < 3; i++ {
@@ -23,7 +24,7 @@ func testGoroutines1() {
 }
 
 // что мы увидим в stdout?
-//увиди cmd1 cmd2
+// увидим cmd1 cmd2
 func testGoroutines2() {
 	ch := make(chan string)
 	go func() {
@@ -39,7 +40,7 @@ func testGoroutines2() {
 	ch <- "cmd.2"
 }
 
-//здесь всегда будет выводиться последнее из цикла, так как в рутины не передаются значения,
+// здесь всегда будет выводиться последнее из цикла, так как в рутины не передаются значения,
 // и V в рутине вычисляется при выводе через fmt.Println(), а не при создании рутины
 func testGoroutines3() {
 	data := []string{"one", "two", "three"}
@@ -51,7 +52,7 @@ func testGoroutines3() {
 	time.Sleep(3 * time.Second)
 }
 
-//какая послдняя рутина отрабаотет то значение и будет в num
+// какая последняя рутина отработает то значение и будет в num
 func testGoroutines4() {
 	var num int
 
@@ -63,20 +64,20 @@ func testGoroutines4() {
 	fmt.Printf("NUM is %d", num)
 }
 
-//ошибка, конкуретно
-//без синхронизации в map писать нельзя
+// ошибка, конкурентно
+// без синхронизации в map писать нельзя
 func testGoroutines5() {
 	dataMap := make(map[string]int)
-	//mu := sync.Mutex{}
+	mu := sync.Mutex{}
 	//ch := make(chan struct{}, 1)
 
 	for i := 0; i < 10000; i++ {
 		go func(d map[string]int, num int) {
 
 			//ch <- struct{}{}
-			//mu.Lock()
+			mu.Lock()
 			d[fmt.Sprintf("%d", num)] = num
-			//mu.Unlock()
+			mu.Unlock()
 			//<-ch
 
 		}(dataMap, i)

@@ -1,18 +1,64 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"time"
+)
 
 func main() {
 	//c([]int{1, 2, 3}...)
 
-	str1 := "прикказз"
-	str2 := "ккапризз"
+	//str1 := "прикказз"
+	//str2 := "ккапризз"
+	//
+	//if isAnagram(str1, str2) {
+	//	fmt.Println("Да")
+	//} else {
+	//	fmt.Println("Нет")
+	//}
 
-	if isAnagram(str1, str2) {
-		fmt.Println("Да")
-	} else {
-		fmt.Println("Нет")
+	//ch1 := make(chan int, 5)
+	//ch2 := make(chan int, 5)
+	//
+	//for i := 0; i < 5; i++ {
+	//	ch1 <- i
+	//	ch2 <- i * 10
+	//}
+	//close(ch1)
+	//close(ch2)
+	//
+	//for value := range MergeChannels(ch1, ch2) {
+	//	fmt.Println(value)
+	//}
+
+	input := make(chan int, 100)
+
+	// sample numbers
+	numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+	// run goroutine
+	go func() {
+		for num := range numbers {
+			input <- num
+		}
+		// close channel once all numbers are sent to channel
+		close(input)
+	}()
+
+	ch1 := DivisionChannels(input)
+	ch2 := DivisionChannels(input)
+
+	time.Sleep(3 * time.Second)
+
+	for value := range ch1 {
+		fmt.Println("1: ", value)
 	}
+
+	for value := range ch2 {
+		fmt.Println("2: ", value)
+	}
+
 }
 
 func c(b ...int) {
@@ -57,6 +103,36 @@ func isAnagram(str1 string, str2 string) bool {
 	return false
 }
 
-func Merge2Channels(f func(int) int, in1 <-chan int, in2 <-chan int, out chan<- int, n int) {
+func MergeChannels(channels ...<-chan int) <-chan int {
+	out := make(chan int)
 
+	go func() {
+		wg := &sync.WaitGroup{}
+		wg.Add(len(channels))
+		for _, channel := range channels {
+			go func(n <-chan int, wg *sync.WaitGroup) {
+				defer wg.Done()
+				for value := range n {
+					out <- value
+				}
+			}(channel, wg)
+		}
+
+		wg.Wait()
+		close(out)
+	}()
+
+	return out
+}
+
+func DivisionChannels(channel <-chan int) <-chan int {
+	ch := make(chan int, 100)
+	go func() {
+		for value := range channel {
+			ch <- value
+		}
+		close(ch)
+	}()
+
+	return ch
 }

@@ -42,6 +42,7 @@ func baseContext() {
 	withTimeout, cancel := context.WithTimeout(ctxB, time.Second*2)
 	defer cancel()
 	fmt.Println("Прошел таймаут: ", <-withTimeout.Done())
+	fmt.Println("ОШИБКА ПОСЛЕ ТОГО КАК ДОЖДАЛИСЬ ТАЙМАУТА: ", withTimeout.Err())
 }
 
 func workerPoolWithCancel() {
@@ -64,7 +65,7 @@ func workerPoolWithCancel() {
 		}()
 	}
 
-	// записываем 1000 значений в канал необработнных значений и ЗАКРЫВАЕМ ЕГО
+	// записываем 1000 значений в канал необработaнных значений и ЗАКРЫВАЕМ ЕГО
 	go func() {
 		defer close(numbersToProcess)
 		for i := 0; i < 1000; i++ {
