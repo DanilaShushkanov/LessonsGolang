@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	workerPoolWithTimeout()
+	BaseContext2()
 }
 
 func baseContext() {
@@ -43,6 +43,22 @@ func baseContext() {
 	defer cancel()
 	fmt.Println("Прошел таймаут: ", <-withTimeout.Done())
 	fmt.Println("ОШИБКА ПОСЛЕ ТОГО КАК ДОЖДАЛИСЬ ТАЙМАУТА: ", withTimeout.Err())
+}
+
+func BaseContext2() {
+	ctxB := context.Background()
+	ctxC, cancel := context.WithCancel(ctxB)
+	defer cancel()
+
+	ctxV := context.WithValue(ctxB, "a", 1)
+
+	ctxC2, cancel2 := context.WithCancel(ctxV)
+	defer cancel2()
+
+	fmt.Println(ctxB.Value("a"))  //Так как контекст не производный от ctxV, то nil
+	fmt.Println(ctxC.Value("a"))  //Так как контекст не производный от ctxV, то nil
+	fmt.Println(ctxV.Value("a"))  //Так как это и есть ctxV, то 1
+	fmt.Println(ctxC2.Value("a")) //Так как контекст производный от ctxV, то 1
 }
 
 func workerPoolWithCancel() {

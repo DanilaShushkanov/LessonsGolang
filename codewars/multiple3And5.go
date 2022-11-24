@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println(FindMissingLetter([]rune{'a', 'b', 'c', 'd', 'f'}))
+	fmt.Println(DirReduc([]string{"NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "NORTH"}))
 }
 
 func Multiple3And5(number int) int {
@@ -239,4 +239,64 @@ func FindMissingLetter(chars []rune) rune {
 		}
 	}
 	return findChar
+}
+
+func HumanReadableTime(seconds int) string {
+	m, s := seconds/60, seconds%60
+	h, m := m/60, m%60
+	return fmt.Sprintf("%02d:%02d:%02d", h, m, s)
+}
+
+func FirstNonRepeating(str string) string {
+	letterMap := make(map[string]int)
+	for _, letter := range str {
+		letterLower := strings.ToLower(string(letter))
+		if _, ok := letterMap[letterLower]; !ok {
+			letterMap[letterLower] = 1
+		} else {
+			letterMap[letterLower]++
+		}
+	}
+
+	for _, letter := range str {
+		value, ok := letterMap[strings.ToLower(string(letter))]
+		if ok && value == 1 {
+			return string(letter)
+		}
+	}
+	return ""
+}
+
+func DirReduc(arr []string) []string {
+	i := 0
+	for i < len(arr)-1 {
+		if (arr[i] == "SOUTH" && arr[i+1] == "NORTH") ||
+			(arr[i] == "NORTH" && arr[i+1] == "SOUTH") ||
+			(arr[i] == "WEST" && arr[i+1] == "EAST") ||
+			(arr[i] == "EAST" && arr[i+1] == "WEST") {
+
+			arr = append(arr[:i], arr[i+2:]...)
+			i = 0
+			continue
+		}
+		i++
+	}
+
+	return arr
+}
+
+func max(a, b int) int {
+	if a >= b {
+		return a
+	}
+	return b
+}
+
+func LongestSlideDown(pyramid [][]int) int {
+	for i := len(pyramid) - 2; i >= 0; i-- {
+		for j := 0; j < len(pyramid[i]); j++ {
+			pyramid[i][j] += max(pyramid[i+1][j], pyramid[i+1][j+1])
+		}
+	}
+	return pyramid[0][0]
 }

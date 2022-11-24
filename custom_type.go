@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Person struct {
 	Name string
@@ -16,7 +19,32 @@ func (p *Person) printAge() {
 }
 
 func main() {
-	useCase()
+	concurencySetStruct()
+}
+
+func concurencySetStruct() {
+	type IdName struct {
+		Id   int
+		Name string
+	}
+
+	wg := &sync.WaitGroup{}
+	idName := &IdName{}
+
+	wg.Add(2)
+	go func() {
+		defer wg.Done()
+		idName.Id = 1
+	}()
+
+	go func() {
+		defer wg.Done()
+		idName.Name = "Petr"
+	}()
+
+	wg.Wait()
+
+	fmt.Println(*idName)
 }
 
 func sumWithCustomType() {
